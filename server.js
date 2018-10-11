@@ -15,7 +15,7 @@ app.use('/', routes);
 app.use('/scrape', routes);
 app.use('/save', routes);
 app.use('/delete', routes);
-app.use('/artcles', routes);
+app.use('/articles', routes);
 
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");

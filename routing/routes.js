@@ -10,20 +10,29 @@ router.get("/scrape", function(req, res) {
      
       var $ = cheerio.load(response.data);
   
-      $("article h2").each(function(i, element) {
+      $("article").each(function(i, element) {
         
         var result = {};
   
         result.title = $(this)
+          .children("h2")
           .children("a")
           .text();
+
         result.link = $(this)
+          .children("h2")
           .children("a")
           .attr("href");
-  
+          
+        result.author = $(this)
+          .children("footer")
+          .children("address")
+          .text();
+          
         db.Article.create(result)
+        
           .then(function(dbArticle) {
-            
+          
             console.log(dbArticle);
           })
           .catch(function(err) {
@@ -49,4 +58,5 @@ router.get("/articles", function(req, res) {
 router.get("*", (req,res) => {
     res.json("404 error page route");
 });
+
 module.exports = router;

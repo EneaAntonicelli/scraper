@@ -1,3 +1,7 @@
 .uk-card-small .uk-card-body, .uk-card-small.uk-card-body {
     margin: 20px;
 }
+
+.uk-article-title {
+    font-size: 2em;
+}
