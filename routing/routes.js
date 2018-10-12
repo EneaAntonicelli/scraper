@@ -3,32 +3,38 @@ var router = express.Router();
 var axios = require("axios");
 var cheerio = require("cheerio");
 var db = require("../models");
+var fs = require("fs");
 
 router.get("/scrape", function(req, res) {
   
     axios.get("https://www.breitbart.com/").then(function(response) {
+
+     fs.writeFile("output.html",response.data, function(err){console.log(err)});
      
       var $ = cheerio.load(response.data);
-  
-      $("article").each(function(i, element) {
+
+      $("#DQSWUL li").each(function(i, element) {
         
         var result = {};
   
         result.title = $(this)
-          .children("h2")
           .children("a")
-          .text();
-
+          .attr("title");
+          
         result.link = $(this)
-          .children("h2")
           .children("a")
           .attr("href");
-          
-        result.author = $(this)
-          .children("footer")
-          .children("address")
-          .text();
-          
+
+        result.img = $(this)
+          .children("a")
+          .children("img")
+          .attr("src");
+
+//NO DATABASE UP TO THIS POINT
+
+        // console.log(result);
+        // return;
+// DATABASE STARTS HERE
         db.Article.create(result)
         
           .then(function(dbArticle) {

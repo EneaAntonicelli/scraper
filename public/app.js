@@ -6,12 +6,13 @@ $.getJSON("/articles", function(data) {
 
     for (var i = 0; i < data.length; i++) {
         
+console.log(data[i].image);
 
         var comment = '<article class="uk-comment"><header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid><div class="uk-width-auto"><img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""></div><div class="uk-width-expand"><h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Author</a></h4><ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"><li><a href="#">12 days ago</a></li><li><a href="#">Reply</a></li></ul></div></header><div class="uk-comment-body" id="comments"><p>Lorem ipsum</p></div></article>'
 
         var dropdown = '<button class="uk-button uk-button-default" type="button">5 Comments</button><div uk-dropdown="mode: click">'+comment+'</div>'
 
-        var article = '<div class="uk-flex uk-flex-column uk-width-1-2">'+
+        var article = '<div class="uk-flex uk-flex-column uk-width-1-2" id="articleColumn">'+
 
                         '<div class="uk-width-1-1 uk-card uk-card-default uk-card-body uk-card-small">'+
 
@@ -50,7 +51,15 @@ $.getJSON("/articles", function(data) {
 
                         '</div>'+
                         
+                      '</div>'+
+
+                      '<div class="uk-flex uk-flex-column uk-width-1-2" id="imgColumn">'+
+                        '<div>'+
+                          '<img src="'+ data[i].img +'">'+
+                        '</div>'+
                       '</div>'
+                    
+
 
         $("#articles").append(article);
 
