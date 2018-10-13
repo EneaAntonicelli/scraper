@@ -7,8 +7,20 @@
 }
 #imgColumn  {
     display: inline-flex;
+    width: 100%;
 }
 #articleColumn{
     flex-direction: unset;
+    display: inline-flex;
+}
+
+#breitbartButton {
+    width: 100%;
+    max-height: 60px;
+    align-self: center;
+}
+
+#imgAndButtonContainer {
+    width: 100%;
     display: inline-flex;
 }

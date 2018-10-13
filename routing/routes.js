@@ -7,13 +7,13 @@ var fs = require("fs");
 
 router.get("/scrape", function(req, res) {
   
-    axios.get("https://www.breitbart.com/").then(function(response) {
+    axios.get("https://www.breitbart.com/big-government/").then(function(response) {
 
      fs.writeFile("output.html",response.data, function(err){console.log(err)});
      
       var $ = cheerio.load(response.data);
 
-      $("#DQSWUL li").each(function(i, element) {
+      $(".article-list article").each(function(i, element) {
         
         var result = {};
   
@@ -25,17 +25,35 @@ router.get("/scrape", function(req, res) {
           .children("a")
           .attr("href");
 
+        result.summary = $(this)
+          .children("div")
+          .children("div")
+          .children("p")
+          .text();
+
+        // result.date = $(this)
+        //   .children("div")
+        //   .children("footer")
+        //   .children("time")
+        //   .attr("datetime");
+          
         result.img = $(this)
           .children("a")
           .children("img")
           .attr("src");
+
+        result.author = $(this)
+          .children("div")
+          .children("footer")
+          .children("address")
+          .attr("data-aname");
 
 //NO DATABASE UP TO THIS POINT
 
         // console.log(result);
         // return;
 // DATABASE STARTS HERE
-        db.Article.create(result)
+        db.Article.insertMany(result)
         
           .then(function(dbArticle) {
           
