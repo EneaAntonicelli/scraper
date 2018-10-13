@@ -6,9 +6,10 @@ $.getJSON("/articles", function(data) {
 
     for (var i = 0; i < data.length; i++) {
 
-        var comment = '<article class="uk-comment"><header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid><div class="uk-width-auto"><img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""></div><div class="uk-width-expand"><h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Author</a></h4><ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"><li><a href="#">12 days ago</a></li><li><a href="#">Reply</a></li></ul></div></header><div class="uk-comment-body" id="comments"><p>Lorem ipsum</p></div></article>'
+        var comment = '<article class="uk-comment"><header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid><div class="uk-width-auto"><img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt=""></div><div class="uk-width-expand"><h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">Author</a></h4><ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"><li><a href="#">12 days ago</a></li><li><a href="#">Reply</a></li></ul></div></header><div class="uk-comment-body" id="comments2"><p>Lorem ipsum</p></div></article>'
 
-        var dropdown = '<button class="uk-button uk-button-default" type="button">COMMENT</button><div uk-dropdown="mode: click">'+comment+'</div>'
+        var dropdown = '<button class="uk-button uk-button-default" type="button">COMMENT</button>'+
+                          '<div uk-dropdown="mode: click">'+comment+'</div>'
 
         var article = '<div class="uk-flex uk-flex-column uk-width-1-2" id="articleColumn">'+
 
@@ -45,6 +46,9 @@ $.getJSON("/articles", function(data) {
                             '<p class="uk-text-lead"></p>'+
 
                             '<p>'+data[i].summary+' </p>'+
+
+                            '<div id="comments>'+
+                            '</div>'+
                             
                             '<div class="uk-grid-small uk-child-width-auto" uk-grid>'+
 
@@ -69,43 +73,6 @@ $.getJSON("/articles", function(data) {
                       '</div>'
 
         $("#articles").append(article);
-
-        $("#commentButton").on('click', function(){
-            
-            var thisId = $(this).attr("data-id");
-            
-            $.ajax({
-              method: "GET",
-              url: "/articles/" + thisId
-            })
-              
-              .then(function(data) {
-                console.log(data);
-                
-                $("#comments").append("<h2>" + data.title + "</h2>");
-                
-                $("#comments").append("<input id='titleinput' name='title' >");
-                
-                $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
-                
-                $("#comments").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-          
-                
-                if (data.comment) {
-                  // Place the title of the note in the title input
-                  $("#titleinput").val(data.comment.title);
-                  // Place the body of the comment in the body textarea
-                  $("#bodyinput").val(data.comment.body);
-                }
-              });
-          });
-    
-          // $("#breitbartButton").on('click', function(){
-          //   window.location=data[i].link;
-          // });
-      
-        
-     
     }
   });
 });
